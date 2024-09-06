@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="card-body row">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        {{--<div class="col-md-4">
                                             <label for="parent_service" class="form-label">Parent Service</label>
                                             <select class="form-select" id="parent_service" name="parent_service">
                                                 <option selected disabled value="">Choose...</option>
@@ -66,8 +66,8 @@
                                             <div class="invalid-feedback">
                                                 Please select a valid state.
                                             </div>
-                                        </div>
-                                        <div class="mb-3 col-md-4">
+                                        </div>--}}
+                                        <div class="mb-3 col-md-12">
                                             <label class="form-label">Name</label>
                                             <div>
                                                 <input data-parsley-type="text" type="text" class="form-control" required placeholder="Enter Service Title" name="name">
