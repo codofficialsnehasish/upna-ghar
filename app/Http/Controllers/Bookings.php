@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ServiceBook;
 use App\Models\User; 
+use App\Models\FormResponse; 
+use App\Models\Service;
 
 class Bookings extends Controller
 {
@@ -75,5 +77,15 @@ class Bookings extends Controller
         }else{
             return redirect()->back()->with(['error'=>'Booking Not Deleted']);
         }
+    }
+
+
+    public function show_submitted_details_by_worker(string $id){
+        $data['title'] = 'Submitted Details';
+        $booking = ServiceBook::find($id);
+        $data['booking'] = $booking;
+        $data['service'] = Service::find($booking->service_id);
+        $data['form_responses'] = FormResponse::where('booking_id',$id)->get();
+        return view($this->view_path.'submit_forms_details')->with($data);
     }
 }

@@ -79,11 +79,23 @@
                                                 <strong>Date : </strong>{{ $booking->visit_date }} <br>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="text-wrap">
                                             @if($booking->status == 'approved')
                                             <div class="">
                                                 <strong>Worker Name : </strong>{{ get_name('users',$booking->allotted_worker_id) }} <br>
                                                 <strong>Contact : </strong>{{ get_user_phone($booking->allotted_worker_id) }} <br>
+
+                                                @if(!\Carbon\Carbon::parse($booking->visit_date)->isPast())
+                                                <a class="" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{$booking->id}}">
+                                                    Change Worker
+                                                    <i class="fas fa-external-link-alt text-danger"></i>
+                                                </a>
+                                                @endif
+
+                                                @if($booking->is_verified == 1)
+                                                <span class="badge bg-success">Check In</span> at {{ format_datetime($booking->verification_time) }} <br>
+                                                <a href="{{ route('booking.show-submitted-details-by-worker',$booking->id) }}">View Submited Details</a>
+                                                @endif
                                             </div>
                                             @endif
                                         </td>
@@ -128,7 +140,7 @@
                 <input type="hidden" value="1" name="status">
                 <div class="modal-body">
                     <div class="mb-3 col-md-12">
-                        <label class="form-label">Choose Time Slot</label>
+                        <label class="form-label">Choose Worker</label>
                         <select class="form-control" required name="worker">
                             <option value selected disabled>Choose...</option>
                             @foreach($workers as $worker)

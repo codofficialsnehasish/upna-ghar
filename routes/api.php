@@ -31,4 +31,5 @@ Route::middleware('auth:sanctum')->group( function () {
     // Worker Module
     Route::get('/get-assign-services', [WorkerController::class, 'get_assign_services']);
     Route::post('/verify-service-otp', [WorkerController::class, 'verify_service_otp']);
+    Route::post('/submit-requirement-form', [WorkerController::class, 'submit_requirement_form']);
 });

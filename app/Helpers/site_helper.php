@@ -1,8 +1,7 @@
 <?php
     use Illuminate\Support\Str;
-    use App\Models\Product;
-    use App\Models\ProductImages;
     use App\Models\User;
+    use Carbon\Carbon;
 
     if (!function_exists('get_logo')) {
         function get_logo(){
@@ -369,4 +368,4 @@
                 return '';
             }
         }
-    }
+    }    

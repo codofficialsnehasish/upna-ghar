@@ -119,6 +119,8 @@ Route::middleware('auth')->group(function () {
                 Route::get('today-bookings','today_bookings')->name('booking.today-bookings');
                 Route::get('update-booking-status','update_booking_status')->name('booking.update-booking-status');
                 Route::get('/{id}/delete','destroy')->name('booking.destroy');
+
+                Route::get('/{id}/show-submitted-details-by-worker','show_submitted_details_by_worker')->name('booking.show-submitted-details-by-worker');
             });
         });
 

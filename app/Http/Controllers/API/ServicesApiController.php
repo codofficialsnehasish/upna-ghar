@@ -99,7 +99,10 @@ class ServicesApiController extends Controller
     }
 
     public function get_booked_service(Request $request){
-        $booking = ServiceBook::where('user_id',$request->user()->id)->get();
+        $booking = ServiceBook::where('user_id', $request->user()->id)
+                ->orderBy('id', 'desc')
+                ->get();
+
         if($booking){
             return response()->json([
                 'status' => 'true',
