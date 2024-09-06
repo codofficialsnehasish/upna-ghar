@@ -110,6 +110,10 @@ Route::middleware('auth')->group(function () {
                 Route::post('update','update')->name('service.update');
                 Route::get('{id}/delete','delete')->name('service.delete');
                 Route::post('get-sub-parent','get_sub_parent')->name('service.get-sub-parent');
+                
+                Route::get('{id}/delete-service-media','delete_service_media')->name('service.delete-service-media');
+                Route::get('{id}/delete-work-process','delete_work_process')->name('service.delete-work-process');
+                Route::get('{id}/delete-promice','delete_promice')->name('service.delete-promice');
             });
         });
 
@@ -125,6 +129,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('service-form-template',ServiceFormTemplateController::class);
+        Route::get('service-form-template/{id}/delete-form-field',[ServiceFormTemplateController::class,'delete_form_field'])->name('service-form-template.delete-form-field');
 
     });
 });

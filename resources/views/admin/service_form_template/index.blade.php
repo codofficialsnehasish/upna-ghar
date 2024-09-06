@@ -53,8 +53,12 @@
                                         <td>{{ $template->template_name }}</td>
                                         <td>{!! check_visibility($template->is_visible) !!}</td>
                                         <td>
-                                            <!-- <a class="btn btn-primary" href="{{ route('service-form-template.edit',$template->id) }}" alt="edit"><i class="ti-check-box"></i></a>
-                                            <a class="btn btn-danger" onclick="return confirm('Are You Sure?')" href="{{ route('service-form-template.destroy',$template->id) }}"><i class="ti-trash"></i></a> -->
+                                            <a class="btn btn-primary" href="{{ route('service-form-template.edit',$template->id) }}" alt="edit"><i class="ti-check-box"></i></a>
+                                            <form action="{{ route('service-form-template.destroy', $template->id) }}" onsubmit="return confirm('Are Your Sure?')" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" type="submit"><i class="ti-trash"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach
