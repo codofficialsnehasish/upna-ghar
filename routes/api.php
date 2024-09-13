@@ -6,10 +6,12 @@ use App\Http\Controllers\API\{
     AuthenticationController,
     ServicesApiController,
     WorkerController,
+    Locations,
 };
 
 use App\Http\Controllers\{
-    ProductController
+    ProductController,
+    ServiceTypeController,
 };
 
 
@@ -18,6 +20,11 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/update-profile', [AuthenticationController::class, 'update_profile']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
+
+    // Master Data
+    Route::get('/get-service-type', [ServiceTypeController::class, 'index']);
+    Route::get('/get-states/{country_id}', [Locations::class, 'get_states']);
+    Route::get('/get-cities/{state_id}', [Locations::class, 'get_cities']);
 
     // User Module
     Route::get('/get-services', [ServicesApiController::class, 'index']);

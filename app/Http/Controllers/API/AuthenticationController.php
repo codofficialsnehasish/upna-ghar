@@ -9,6 +9,9 @@ use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Otp;
+use App\Models\City;
+use App\Models\State;
+use App\Models\ServiceType;
 
 class AuthenticationController extends Controller
 {
@@ -141,20 +144,23 @@ class AuthenticationController extends Controller
 
     public function update_profile(Request $request){
         $validator = Validator::make($request->all(), [
-            'phone_number' => 'required|digits:10|regex:/^[6789]/|exists:users,phone',
             'name' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
         ]);
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }else{
-            $user = User::where('phone', $request->phone_number)->first();
+            $user = User::find($request->user()->id)->first();
             $user->name = $request->name;
-            $user->email = $request->email;
+            if($user->email != $request->email){
+                $user->email = $request->email;
+            }
             $user->work_expereince = $request->work_expereince;
-            $user->type_of_service = $request->type_of_service;
-            $user->address = $request->address;
+            $user->type_of_service = implode(',',$request->type_of_service);
+            $user->street_address = $request->street_address;
+            $user->nearby_landmark = $request->nearby_landmark;
             $user->state = $request->state;
             $user->city = $request->city;
+            $user->pin_code = $request->pin_code;
 
             if ($request->has('user_image') && !empty($request->input('user_image'))) {
                 $base64Image = $request->input('user_image');
@@ -171,12 +177,41 @@ class AuthenticationController extends Controller
                 $user->user_image = NULL;
             }
 
+            if ($request->has('document') && !empty($request->input('document'))) {
+                $base64Image = $request->input('document');
+                $decodedImage = base64_decode($base64Image);
+                if ($decodedImage !== false) {
+                    $filename = uniqid() . '.png';
+                    $directory = public_path('web_directory/user_documents');
+                    $filePath = $directory . '/' . $filename;
+                    file_put_contents($filePath, $decodedImage);
+                    $filePath = "web_directory/user_documents/".$filename;
+                    $user->document = $filePath;
+                }
+            }else{
+                $user->document = NULL;
+            }
+
             $res = $user->update();
+
+            $serviceIds = explode(',', $user->type_of_service);
+            $serviceNames = [];
+
+            // Loop through each ID and fetch the service name
+            foreach ($serviceIds as $id) {
+                $serviceNames[] = ServiceType::get_service_type_name($id);
+            }
+
+            $extraData = [
+                'state_name' => State::get_state_name($user->state),
+                'city_name' => City::get_city_name($user->city),
+                'service_types' => $serviceNames
+            ];
             if($res){
                 return response()->json([
                     'status' => 'true',
                     'message' => 'Profile Updated Succesfully',
-                    'data' => $user
+                    'data' => array_merge($user->toArray(), $extraData)
                 ]);
             }else{
                 return response()->json([

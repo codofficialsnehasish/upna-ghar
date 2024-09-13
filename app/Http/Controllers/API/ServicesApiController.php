@@ -84,6 +84,8 @@ class ServicesApiController extends Controller
             $booking->apartment_type_id = $request->apartment_type_id;
             $booking->time_slot_id = $request->time_slot_id;
             $booking->visit_date = $request->visit_date;
+            $booking->latitude = $request->latitude;
+            $booking->longitude = $request->longitude;
             $booking->survey_charge = Service::find($request->service_id)->survey_charge;
             $booking->survey_charge_payment_mode = $request->payment_mode;
             $booking->survey_charge_payment_status = $request->payment_mode == 'offline'? 'Unpaid' : 'Paid';

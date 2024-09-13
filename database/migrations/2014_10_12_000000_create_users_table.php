@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('user_image')->nullable();
             $table->string('work_expereince')->nullable();
             $table->string('type_of_service')->nullable();
-            $table->string('address')->nullable();
+            $table->string('street_address')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
             $table->rememberToken();

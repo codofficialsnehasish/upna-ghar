@@ -43,6 +43,7 @@
                         <li><a href="{{ route('apartment-type.index') }}">Apartment Type</a></li>
                         <li><a href="{{ route('room.index') }}">Room</a></li>
                         <li><a href="{{ route('time-slot.index') }}">Time Slot</a></li>
+                        <li><a href="{{ route('service-type.index') }}">Service Type</a></li>
                     </ul>
                 </li>
                 <li>

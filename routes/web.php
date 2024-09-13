@@ -17,6 +17,7 @@ use App\Http\Controllers\{
     TimeSlotController,
     Bookings,
     ServiceFormTemplateController,
+    ServiceTypeController,
 };
 
 Route::get('/', function (){
@@ -82,6 +83,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('apartment-type', ApartmentTypeController::class);
             Route::resource('room', RoomController::class);
             Route::resource('time-slot', TimeSlotController::class);
+            Route::resource('service-type', ServiceTypeController::class);
         });
 
 
