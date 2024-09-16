@@ -89,6 +89,12 @@
                         <li><a href="{{ route('service.index') }}">All Services</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="{{ route('slider') }}" class="waves-effect">
+                        <i class="fas fa-people-carry"></i>
+                        <span>Slider</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

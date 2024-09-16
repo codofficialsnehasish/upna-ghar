@@ -110,7 +110,7 @@
                                                         </div>
                                                         <div class="mb-3 col-md-6">
                                                             <div>
-                                                                <input data-parsley-type="text" type="text" class="form-control" placeholder="Enter Description" name="description">
+                                                                <input data-parsley-type="text" type="text" class="form-control" placeholder="Enter Description" name="desc">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1 col-sm-1">
@@ -180,6 +180,20 @@
                                             Please select a valid state.
                                         </div>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="pricetype" class="form-label">Service Type</label>
+                                        <select class="form-select" id="servicetype" name="service_type">
+                                            <option selected disabled value="">Choose...</option>
+                                            @foreach($service_type as $type)
+                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a valid state.
+                                        </div>
+                                    </div>
+
                                     <div class="mb-3">
                                         <label class="form-label">Survey Charge</label>
                                         <div>

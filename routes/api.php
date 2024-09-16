@@ -12,6 +12,7 @@ use App\Http\Controllers\API\{
 use App\Http\Controllers\{
     ProductController,
     ServiceTypeController,
+    SliderController,
 };
 
 
@@ -19,6 +20,7 @@ Route::post('/login', [AuthenticationController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/update-profile', [AuthenticationController::class, 'update_profile']);
+    Route::get('/get-user-data', [AuthenticationController::class, 'get_user_data']);
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 
     // Master Data
@@ -33,6 +35,8 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('/get-booked-service', [ServicesApiController::class, 'get_booked_service']);
     Route::post('/cancel-booked-service', [ServicesApiController::class, 'cancel_booked_service']);
 
+    //Slider
+    Route::get('/get-slider', [SliderController::class, 'slider']);
 
 
     // Worker Module

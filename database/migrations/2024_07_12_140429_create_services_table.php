@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->decimal('price',10,2)->default(0.00);
             $table->unsignedBigInteger('price_type_id')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('main_image')->nullable();
             $table->string('rating')->nullable();
             $table->tinyInteger('visibility')->default(0);

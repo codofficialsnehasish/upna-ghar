@@ -149,7 +149,7 @@ class AuthenticationController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 422);
         }else{
-            $user = User::find($request->user()->id)->first();
+            $user = User::find($request->user()->id);
             $user->name = $request->name;
             if($user->email != $request->email){
                 $user->email = $request->email;
@@ -221,5 +221,10 @@ class AuthenticationController extends Controller
                 ]);
             }
         }
+    }
+
+
+    public function get_user_data(Request $request){
+        return $request->user();
     }
 }

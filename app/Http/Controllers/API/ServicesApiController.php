@@ -24,10 +24,12 @@ class ServicesApiController extends Controller
         return response()->json([
             'status'=>'true',
             'services'=>Service::leftJoin('payment_types','payment_types.id','services.price_type_id')
+                                ->leftJoin('service_types','service_types.id','services.service_type')
                                 ->where('services.visibility',1)
                                 ->get([
                                     'services.*',
                                     'payment_types.name as price_type',
+                                    'service_types.name as service_type',
                                 ])
         ]);
     }

@@ -129,7 +129,7 @@
                                                         </div>
                                                         <div class="mb-3 col-md-6">
                                                             <div>
-                                                                <input data-parsley-type="text" type="text" class="form-control" placeholder="Enter Description" name="description">
+                                                                <input data-parsley-type="text" type="text" class="form-control" placeholder="Enter Description" name="desc">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-1 col-sm-1">
@@ -212,6 +212,18 @@
                                         </div>
                                     </div>
                                     <div class="mb-3">
+                                        <label for="pricetype" class="form-label">Service Type</label>
+                                        <select class="form-select" id="servicetype" name="service_type">
+                                            <option selected disabled value="">Choose...</option>
+                                            @foreach($service_type as $type)
+                                            <option value="{{ $type->id }}" @if($service->service_type == $type->id) selected @endif>{{ $type->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a valid state.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
                                         <label class="form-label">Survey Charge</label>
                                         <div>
                                             <input data-parsley-type="number" type="number" class="form-control" value="{{ $service->survey_charge }}" placeholder="Enter Charge" name="survey_charge">
@@ -283,21 +295,6 @@
     </div>
 
     @section('script')
-    <!-- <script>
-        $('#fileInput').on('change', function(){
-            var files = $(this)[0].files;
-            var imageContainer = $('#imageContainer');
-            imageContainer.empty(); // Clear previous images
-
-            for(var i = 0; i < files.length; i++){
-                var reader = new FileReader();
-                reader.onload = function(event){
-                    imageContainer.append('<div class="col-sm-6"><img src="' + event.target.result + '" style="width:50px;" class="" alt=""></div>');
-                };
-                reader.readAsDataURL(files[i]);
-            }
-        });
-    </script> -->
     <script>
         $('#fileInput').on('change', function(){
             var files = $(this)[0].files;

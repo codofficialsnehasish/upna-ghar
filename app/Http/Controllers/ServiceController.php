@@ -12,6 +12,7 @@ use App\Models\WorkProcess;
 use App\Models\Promice;
 use App\Models\TimeSlot;
 use App\Models\ServiceFormTemplate;
+use App\Models\ServiceType;
 
 class ServiceController extends Controller
 {
@@ -32,6 +33,7 @@ class ServiceController extends Controller
         $data['sub_parents'] = Service::where('parent_id',null)->where('sub_parent_id',null)->get();
         $data['time_slot'] = TimeSlot::where('visibility',1)->get();
         $data['form_templates'] = ServiceFormTemplate::where('is_visible',1)->get();
+        $data['service_type'] = ServiceType::where('visibility',1)->get();
         return view($this->view_path.'create')->with($data);
     }
 
@@ -62,6 +64,7 @@ class ServiceController extends Controller
         $service->description = $request->description; 
         $service->time_slot = implode(',',$request->time_slot);
         $service->survey_charge = $request->survey_charge;
+        $service->service_type = $request->service_type;
         $service->template_id = $request->template;
         
         if ($request->hasFile('service_image')) {
@@ -113,7 +116,7 @@ class ServiceController extends Controller
                     $obj_workprocess = new WorkProcess();
                     $obj_workprocess->service_id = $service->id;
                     $obj_workprocess->title = $workProcess['title'];
-                    $obj_workprocess->description = $workProcess['description'];
+                    $obj_workprocess->description = $workProcess['desc'];
                     $obj_workprocess->save();
                 }
             }
@@ -148,6 +151,7 @@ class ServiceController extends Controller
         $data['sub_parents'] = Service::where('parent_id',null)->where('sub_parent_id',null)->get();
         $data['time_slot'] = TimeSlot::where('visibility',1)->get();
         $data['form_templates'] = ServiceFormTemplate::where('is_visible',1)->get();
+        $data['service_type'] = ServiceType::where('visibility',1)->get();
         return view($this->view_path.'edit')->with($data);
     }
 
@@ -204,6 +208,7 @@ class ServiceController extends Controller
         $service->description = $request->description; 
         $service->time_slot = implode(',',$request->time_slot);
         $service->survey_charge = $request->survey_charge;
+        $service->service_type = $request->service_type;
         $service->template_id = $request->template;
         
         if ($request->hasFile('service_image')) {
