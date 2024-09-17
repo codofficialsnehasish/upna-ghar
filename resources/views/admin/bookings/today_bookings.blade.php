@@ -71,9 +71,9 @@
                                         </td>
                                         <td>
                                             <div class="">
-                                                <strong>Name : </strong>{{ $booking->user->name }} <br>
-                                                <strong>Contact : </strong>{{ $booking->user->phone }} <br>
-                                                <strong>Service : </strong>{{ $booking->service->name }} <br>
+                                                <strong>Name : </strong>{{ $booking->user->name ?? '' }} <br>
+                                                <strong>Contact : </strong>{{ $booking->user->phone ?? '' }} <br>
+                                                <strong>Service : </strong>{{ $booking->service->name ?? '' }} <br>
                                                 <strong>Apartment : </strong>{{ get_name('apartment_types',$booking->apartment_type_id) }} <br>
                                                 <strong>Timing : </strong>{{ get_time_slots($booking->time_slot_id) }} <br>
                                                 <strong>Date : </strong>{{ $booking->visit_date }} <br>
@@ -93,8 +93,8 @@
                                             </div>
                                             @endif
                                         </td>
-                                        {{--<td class="text-wrap">{{ $booking->user->name }}</td>
-                                        <td class="text-wrap">{{ $booking->service->name }}</td>
+                                        {{--<td class="text-wrap">{{ $booking->user->name ?? '' }}</td>
+                                        <td class="text-wrap">{{ $booking->service->name ?? '' }}</td>
                                         <td class="text-wrap">{{ get_name('apartment_types',$booking->apartment_type_id) }}</td>
                                         <td class="text-wrap">{{ get_time_slots($booking->time_slot_id) }}</td>
                                         <td class="text-wrap">{{ $booking->visit_date }}</td> --}}

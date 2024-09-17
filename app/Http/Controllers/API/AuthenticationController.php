@@ -173,9 +173,8 @@ class AuthenticationController extends Controller
                     $filePath = "web_directory/user_images/".$filename;
                     $user->user_image = $filePath;
                 }
-            }else{
-                $user->user_image = NULL;
             }
+            
 
             if ($request->has('document') && !empty($request->input('document'))) {
                 $base64Image = $request->input('document');
@@ -188,8 +187,6 @@ class AuthenticationController extends Controller
                     $filePath = "web_directory/user_documents/".$filename;
                     $user->document = $filePath;
                 }
-            }else{
-                $user->document = NULL;
             }
 
             $res = $user->update();

@@ -19,7 +19,7 @@ class WorkerController extends Controller
 
         $booked_services = ServiceBook::where('allotted_worker_id',$request->user()->id)
                         ->where('status','approved')
-                        ->where('visit_date',date('Y-m-d'))
+                        // ->where('visit_date',date('Y-m-d'))
                         ->get()
                         ->map(function ($item) use ($servicesApiController) {
                             $item->service_details = json_decode($servicesApiController->service_details($item->service_id)->getContent(), true);
