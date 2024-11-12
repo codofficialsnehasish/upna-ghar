@@ -19,6 +19,7 @@ use App\Http\Controllers\{
     ServiceFormTemplateController,
     ServiceTypeController,
     SliderController,
+    CategoryController,
 };
 
 Route::get('/', function (){
@@ -136,12 +137,14 @@ Route::middleware('auth')->group(function () {
 
 
         Route::controller(SliderController::class)->group( function () {
-        Route::get("/slider","slider")->name('slider');
-        Route::get("/slideradd","sliderAdd")->name('slider.add');
-        Route::post("/slider_submit","slider_submit")->name('slider.submit');
-        Route::get("/slideredit/{id}","sliderEdit")->name('slider.edit');
-        Route::post("/slider_edit_submit","slider_edit_submit")->name('slider.edit.submit');
-        Route::get("/slider_del/{id}","slider_del")->name('slider.delete');
+            Route::get("/slider","slider")->name('slider');
+            Route::get("/slideradd","sliderAdd")->name('slider.add');
+            Route::post("/slider_submit","slider_submit")->name('slider.submit');
+            Route::get("/slideredit/{id}","sliderEdit")->name('slider.edit');
+            Route::post("/slider_edit_submit","slider_edit_submit")->name('slider.edit.submit');
+            Route::get("/slider_del/{id}","slider_del")->name('slider.delete');
         });
+
+        Route::resource('category',CategoryController::class);
     });
 });
