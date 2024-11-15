@@ -44,18 +44,18 @@
                                 </div>
                                 <div class="card-body row">
                                     <div class="row">
-                                        <div class="mb-3 col-md-6">
+                                        <div class="mb-3 col-md-12">
                                             <label class="form-label">Name</label>
                                             <div>
                                                 <input data-parsley-type="text" type="text" class="form-control" required  name="name" value="{{ $cate->name }}">
                                             </div>
                                         </div>
-                                        <div class="mb-3 col-md-6">
+                                        {{-- <div class="mb-3 col-md-6">
                                             <label class="form-label">Slug</label>
                                             <div>
                                                 <input data-parsley-type="text" type="text" class="form-control" required  name="slug" value="{{ $cate->slug }}">
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-12 mb-3">
                                             <label for="parent_id" class="form-label">Parent Category</label>
                                             <select class="form-select" id="parent_id" name="parent_id">

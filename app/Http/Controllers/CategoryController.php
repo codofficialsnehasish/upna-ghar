@@ -37,10 +37,10 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'slug' => 'required|max:255',
+            'slug' => 'nullable|max:255',
             'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'is_visible' => 'required|in:0,1'
         ]);
         if ($validator->fails()) {
@@ -49,7 +49,8 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name = $request->name;
-        $category->slug = $request->slug;
+        // $category->slug = $request->slug;
+        $category->slug = createSlug($request->name,Category::class);
         $category->parent_id = $request->parent_id;
         $category->description = $request->description;
 
@@ -97,7 +98,7 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
-            'slug' => 'required|max:255',
+            'slug' => 'nullable|max:255',
             'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -109,7 +110,10 @@ class CategoryController extends Controller
 
         $category = Category::find($id);
         $category->name = $request->name;
-        $category->slug = $request->slug;
+        // $category->slug = $request->slug;
+        if($category->name != $request->name){
+            $category->slug = createSlug($request->name,Category::class);
+        }
         $category->parent_id = $request->parent_id;
         $category->description = $request->description;
 

@@ -36,14 +36,35 @@
                 <form class="custom-validation outer-repeater" action="{{ route('service.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-header bg-primary text-light">
                                     Add New Service
                                 </div>
                                 <div class="card-body row">
                                     <div class="row">
-                                        {{--<div class="col-md-4">
+                                        {{-- <div class="col-md-6">
+                                            <label for="category" class="form-label">Category</label>
+                                            <select class="form-select" id="category" name="category">
+                                                <option selected disabled value="">Choose...</option>
+                                                @foreach($categorys as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select a valid state.
+                                            </div>
+                                        </div> --}}
+                                        {{-- <div class="col-md-6">
+                                            <label for="sub_category" class="form-label">Sub category</label>
+                                            <select class="form-select" id="sub_category" name="sub_category">
+                                                <option selected disabled value="">Select a Category</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select a valid state.
+                                            </div>
+                                        </div> --}}
+                                        {{-- <div class="col-md-4">
                                             <label for="parent_service" class="form-label">Parent Service</label>
                                             <select class="form-select" id="parent_service" name="parent_service">
                                                 <option selected disabled value="">Choose...</option>
@@ -54,8 +75,8 @@
                                             <div class="invalid-feedback">
                                                 Please select a valid state.
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
+                                        </div> --}}
+                                        {{-- <div class="col-md-4">
                                             <label for="sub_parent_service" class="form-label">Sub Parent Service</label>
                                             <select class="form-select" id="sub_parent_service" name="sub_parent_service">
                                                 <option selected disabled value="">Choose...</option>
@@ -66,7 +87,7 @@
                                             <div class="invalid-feedback">
                                                 Please select a valid state.
                                             </div>
-                                        </div>--}}
+                                        </div> --}}
                                         <div class="mb-3 col-md-12">
                                             <label class="form-label">Name</label>
                                             <div>
@@ -143,7 +164,38 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header bg-primary text-light">
+                                    <div class="d-flex flex-wrap">
+                                        <span class="me-2">Category</span>
+                                        {{-- <a class="fw-bold fs-9 text-white" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                            <i class="fas fa-plus-circle"></i>
+                                        </a> --}}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="category-tree" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                                        @if (!empty($categorys))
+                                            @foreach ($categorys as $category)
+                                                {{-- @if ($category->level == 0) --}}
+                                                    <!-- Only display top-level categories -->
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->id }}" id="category{{ $category->id }}" {{ isset($selectedCategories) && in_array($category->id, $selectedCategories) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="category{{ $category->id }}"> {{ $category->name }} </label>
+                                                    </div>
+                                                    @include('admin.service.subcategory', [
+                                                        'subcategories' => $category->children,
+                                                        'parent_id' => $category->id,
+                                                        'margin' => 20,
+                                                        'selectedCategories' => isset($selectedCategories) ? $selectedCategories : [],
+                                                    ])
+                                                {{-- @endif --}}
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card">
                                 <div class="card-header bg-primary text-light">
                                     Service Main Image
@@ -286,6 +338,28 @@
 
                 reader.readAsDataURL(file);
             }
+        });
+    </script>
+    <script>
+        $("#category").on('change', function(){ 
+            $("#sub_category").html('');
+            const parent_id = $(this).val();
+            $.ajax({
+                url : "{{ route('service.get-sub-category') }}",
+                data:{id : parent_id, _token:"{{ csrf_token() }}" },
+                method:'post',
+                dataType:'json',
+                beforeSend: function(){
+                    $('#sub_category').html('<option value="">Loading...</option>'); 
+                    },
+                success:function(response) {
+                    $("#sub_category").html('');
+                    $("#sub_category").append('<option value="">Select...</option>');
+                    $.each(response , function(index, item) {
+                        $("#sub_category").append('<option value="'+item.id+'">'+item.name+'</option>');
+                    });
+                }
+            });
         });
     </script>
     <script>

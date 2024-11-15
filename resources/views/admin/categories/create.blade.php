@@ -43,24 +43,39 @@
                                 </div>
                                 <div class="card-body row">
                                     <div class="row">
-                                        <div class="mb-3 col-md-6">
+                                        <div class="mb-3 col-md-12">
                                             <label class="form-label">Name</label>
                                             <div>
                                                 <input data-parsley-type="text" type="text" class="form-control" required  name="name">
                                             </div>
                                         </div>
-                                        <div class="mb-3 col-md-6">
+                                        {{-- <div class="mb-3 col-md-6">
                                             <label class="form-label">Slug</label>
                                             <div>
                                                 <input data-parsley-type="text" type="text" class="form-control" required  name="slug">
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-12 mb-3">
                                             <label for="parent_id" class="form-label">Parent Category</label>
                                             <select class="form-select" id="parent_id" name="parent_id">
                                                 <option selected disabled value="">Choose...</option>
                                                 @foreach($categorys as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @foreach ($category->children as $child)
+                                                        <option value="{{ $child->id }}" @if(old('parent_id') == $child->id) selected @endif>
+                                                            &nbsp;&nbsp;&nbsp;-- {{ $child->name }}
+                                                        </option>
+                                                        @foreach ($child->children as $childs)
+                                                            <option value="{{ $childs->id }}" @if(old('parent_id') == $childs->id) selected @endif>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- {{ $childs->name }}
+                                                            </option>
+                                                            @foreach ($childs->children as $subchilds)
+                                                            <option value="{{ $subchilds->id }}" @if(old('parent_id') == $subchilds->id) selected @endif>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- {{ $subchilds->name }}
+                                                            </option>
+                                                            @endforeach
+                                                        @endforeach
+                                                    @endforeach
                                                 @endforeach
                                             </select>
                                             <div class="invalid-feedback">

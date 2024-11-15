@@ -113,6 +113,8 @@ Route::middleware('auth')->group(function () {
                 Route::get('{id}/edit','edit')->name('service.edit');
                 Route::post('update','update')->name('service.update');
                 Route::get('{id}/delete','delete')->name('service.delete');
+
+                Route::post('get-sub-category','get_sub_category')->name('service.get-sub-category');
                 Route::post('get-sub-parent','get_sub_parent')->name('service.get-sub-parent');
                 
                 Route::get('{id}/delete-service-media','delete_service_media')->name('service.delete-service-media');

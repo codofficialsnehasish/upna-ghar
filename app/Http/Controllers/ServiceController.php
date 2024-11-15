@@ -13,6 +13,7 @@ use App\Models\Promice;
 use App\Models\TimeSlot;
 use App\Models\ServiceFormTemplate;
 use App\Models\ServiceType;
+use App\Models\Category;
 
 class ServiceController extends Controller
 {
@@ -34,7 +35,13 @@ class ServiceController extends Controller
         $data['time_slot'] = TimeSlot::where('visibility',1)->get();
         $data['form_templates'] = ServiceFormTemplate::where('is_visible',1)->get();
         $data['service_type'] = ServiceType::where('visibility',1)->get();
+        $data['categorys'] = Category::where('visibility',1)->where('parent_id',null)->get();
         return view($this->view_path.'create')->with($data);
+    }
+
+    public function get_sub_category(Request $request){
+        $sub_parent = Category::where('parent_id',$request->id)->where('visibility',1)->get();  
+        echo json_encode($sub_parent);
     }
 
     public function get_sub_parent(Request $r){
