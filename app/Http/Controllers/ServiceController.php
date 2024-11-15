@@ -89,11 +89,15 @@ class ServiceController extends Controller
         $res = $service->save();
 
         // Categories
-        foreach($request->categories as $categorie){
-            ServiceCategories::create([
-                'services_id' => $service->id,
-                'category_id' => $categorie,
-            ]);
+        // foreach($request->categories as $categorie){
+        //     ServiceCategories::create([
+        //         'services_id' => $service->id,
+        //         'category_id' => $categorie,
+        //     ]);
+        // }
+
+        if ($request->has('categories')) {  
+            $service->categories()->sync($request->categories);
         }
         
 
@@ -172,7 +176,7 @@ class ServiceController extends Controller
         $data['form_templates'] = ServiceFormTemplate::where('is_visible',1)->get();
         $data['service_type'] = ServiceType::where('visibility',1)->get();
         $data['categorys'] = Category::where('visibility',1)->where('parent_id',null)->get();
-        $data['selectedCategories'] = $service->service_subcategories->pluck('id')->toArray();
+        $data['selectedCategories'] = $service->categories->pluck('id')->toArray();
         return view($this->view_path.'edit')->with($data);
     }
 
@@ -214,9 +218,9 @@ class ServiceController extends Controller
             'price_type' => 'required',
             'time_slot' => 'required',
             'survey_charge' => 'required',
-            'outer-group.*.work-process.*.title' => 'required|string|max:255',
-            'outer-group.*.work-process.*.description' => 'required|string|max:1000',
-            'outer-group.*.promice-group.*.promicedata' => 'required|string|max:500',
+            // 'outer-group.*.work-process.*.title' => 'required|string|max:255',
+            // 'outer-group.*.work-process.*.description' => 'required|string|max:1000',
+            // 'outer-group.*.promice-group.*.promicedata' => 'required|string|max:500',
         ]);
 
         $service = Service::find($request->id);
@@ -243,6 +247,10 @@ class ServiceController extends Controller
 
         $service->visibility = $request->is_visible;
         $res = $service->update();
+
+        if ($request->has('categories')) {  
+            $service->categories()->sync($request->categories);
+        }
 
         // Uploading service Media
         $media_files = $request->file('service_media');

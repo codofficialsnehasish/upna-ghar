@@ -20,4 +20,9 @@ class Service extends Model
     {
         return $this->hasMany(ServiceCategories::class, 'services_id', 'id');
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'service_categories', 'services_id', 'category_id');
+    }
 }

@@ -42,6 +42,7 @@
                                     <tr>
                                         <th class="text-wrap">SL No</th>
                                         <th class="text-wrap">Name</th>
+                                        <th class="text-wrap">Categories</th>
                                         <th class="text-wrap">Starting Price</th>
                                         <th class="text-wrap">Image</th>
                                         <th class="text-wrap">Visibility</th>
@@ -51,11 +52,12 @@
                                 <tbody>
                                     @foreach($services as $service)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>   
-                                        <td>{{ $service->name }}</td>
-                                        <td>₹ {{ $service->price }} {{ get_name('payment_types',$service->price_type_id) }}</td>
-                                        <td><img src="{{ asset($service->main_image) }}" alt="" width="60px"></td>
-                                        <td>{!! check_visibility($service->visibility) !!}</td>
+                                        <td class="text-wrap">{{ $loop->iteration }}</td>   
+                                        <td class="text-wrap">{{ $service->name }}</td>
+                                        <td class="text-wrap"> @foreach($service->categories as $cata) {{ $cata->name.' / ' }} @endforeach</td>
+                                        <td class="text-wrap">₹ {{ $service->price }} {{ get_name('payment_types',$service->price_type_id) }}</td>
+                                        <td class="text-wrap"><img src="{{ asset($service->main_image) }}" alt="" width="60px"></td>
+                                        <td class="text-wrap">{!! check_visibility($service->visibility) !!}</td>
                                         <td>
                                             <a class="btn btn-primary" href="{{ route('service.edit',$service->id) }}" alt="edit"><i class="ti-check-box"></i></a>
                                             <a class="btn btn-danger" onclick="return confirm('Are You Sure?')" href="{{ route('service.delete',$service->id) }}"><i class="ti-trash"></i></a>
