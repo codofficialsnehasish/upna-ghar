@@ -36,7 +36,7 @@
                     @csrf
                     <input type="hidden" value="{{ $service->id}}" name="id">
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-header bg-primary text-light">
                                     Edit Service
@@ -174,7 +174,38 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
+                            <div class="card">
+                                <div class="card-header bg-primary text-light">
+                                    <div class="d-flex flex-wrap">
+                                        <span class="me-2">Category</span>
+                                        {{-- <a class="fw-bold fs-9 text-white" type="button" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                                            <i class="fas fa-plus-circle"></i>
+                                        </a> --}}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="category-tree" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+                                        @if (!empty($categorys))
+                                            @foreach ($categorys as $category)
+                                                {{-- @if ($category->level == 0) --}}
+                                                    <!-- Only display top-level categories -->
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->id }}" id="category{{ $category->id }}" {{ isset($selectedCategories) && in_array($category->id, $selectedCategories) ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="category{{ $category->id }}"> {{ $category->name }} </label>
+                                                    </div>
+                                                    @include('admin.service.subcategory', [
+                                                        'subcategories' => $category->children,
+                                                        'parent_id' => $category->id,
+                                                        'margin' => 20,
+                                                        'selectedCategories' => isset($selectedCategories) ? $selectedCategories : [],
+                                                    ])
+                                                {{-- @endif --}}
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card">
                                 <div class="card-header bg-primary text-light">
                                     Service Main Image

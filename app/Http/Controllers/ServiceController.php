@@ -14,6 +14,7 @@ use App\Models\TimeSlot;
 use App\Models\ServiceFormTemplate;
 use App\Models\ServiceType;
 use App\Models\Category;
+use App\Models\ServiceCategories;
 
 class ServiceController extends Controller
 {
@@ -39,26 +40,27 @@ class ServiceController extends Controller
         return view($this->view_path.'create')->with($data);
     }
 
-    public function get_sub_category(Request $request){
-        $sub_parent = Category::where('parent_id',$request->id)->where('visibility',1)->get();  
-        echo json_encode($sub_parent);
-    }
+    // public function get_sub_category(Request $request){
+    //     $sub_parent = Category::where('parent_id',$request->id)->where('visibility',1)->get();  
+    //     echo json_encode($sub_parent);
+    // }
 
-    public function get_sub_parent(Request $r){
-        $sub_parent = Service::where('parent_id',$r->id)->where('sub_parent_id',null)->get();  
-        echo json_encode($sub_parent);
-    }
+    // public function get_sub_parent(Request $r){
+    //     $sub_parent = Service::where('parent_id',$r->id)->where('sub_parent_id',null)->get();  
+    //     echo json_encode($sub_parent);
+    // }
 
     public function store(Request $request){
+        // return $request->all();
         $request->validate([
             'name' => 'required',
             'price' => 'required',
             'price_type' => 'required',
             'time_slot' => 'required',
             'survey_charge' => 'required',
-            'outer-group.*.work-process.*.title' => 'required|string|max:255',
-            'outer-group.*.work-process.*.description' => 'required|string|max:1000',
-            'outer-group.*.promice-group.*.promicedata' => 'required|string|max:500',
+            // 'outer-group.*.work-process.*.title' => 'required|string|max:255',
+            // 'outer-group.*.work-process.*.description' => 'required|string|max:1000',
+            // 'outer-group.*.promice-group.*.promicedata' => 'required|string|max:500',
         ]);
 
         $service = new Service();
@@ -85,6 +87,15 @@ class ServiceController extends Controller
 
         $service->visibility = $request->is_visible;
         $res = $service->save();
+
+        // Categories
+        foreach($request->categories as $categorie){
+            ServiceCategories::create([
+                'services_id' => $service->id,
+                'category_id' => $categorie,
+            ]);
+        }
+        
 
         // Uploading service Media
         $media_files = $request->file('service_media');
@@ -113,31 +124,31 @@ class ServiceController extends Controller
         }
 
 
-        $outerGroup = $request->input('outer-group');
+        // $outerGroup = $request->input('outer-group');
 
-        // Loop through each item in the outer-group array
-        foreach ($outerGroup as $groupIndex => $group) {
-            // Access and loop through work-process data if available
-            if (isset($group['work-process'])) {
-                foreach ($group['work-process'] as $workProcessIndex => $workProcess) {
-                    $obj_workprocess = new WorkProcess();
-                    $obj_workprocess->service_id = $service->id;
-                    $obj_workprocess->title = $workProcess['title'];
-                    $obj_workprocess->description = $workProcess['desc'];
-                    $obj_workprocess->save();
-                }
-            }
+        // // Loop through each item in the outer-group array
+        // foreach ($outerGroup as $groupIndex => $group) {
+        //     // Access and loop through work-process data if available
+        //     if (isset($group['work-process'])) {
+        //         foreach ($group['work-process'] as $workProcessIndex => $workProcess) {
+        //             $obj_workprocess = new WorkProcess();
+        //             $obj_workprocess->service_id = $service->id;
+        //             $obj_workprocess->title = $workProcess['title'];
+        //             $obj_workprocess->description = $workProcess['desc'];
+        //             $obj_workprocess->save();
+        //         }
+        //     }
 
-            // Access and loop through promice-group data if available
-            if (isset($group['promice-group'])) {
-                foreach ($group['promice-group'] as $promiceGroupIndex => $promiceGroup) {
-                    $obj_promice = new Promice();
-                    $obj_promice->service_id = $service->id;
-                    $obj_promice->promice = $promiceGroup['promicedata'];
-                    $obj_promice->save();
-                }
-            }
-        }
+        //     // Access and loop through promice-group data if available
+        //     if (isset($group['promice-group'])) {
+        //         foreach ($group['promice-group'] as $promiceGroupIndex => $promiceGroup) {
+        //             $obj_promice = new Promice();
+        //             $obj_promice->service_id = $service->id;
+        //             $obj_promice->promice = $promiceGroup['promicedata'];
+        //             $obj_promice->save();
+        //         }
+        //     }
+        // }
 
 
         if($res){
@@ -149,7 +160,8 @@ class ServiceController extends Controller
 
     public function edit(Request $r){
         $data['title'] = 'Service';
-        $data['service'] = Service::find($r->id);
+        $service = Service::find($r->id);
+        $data['service'] = $service;
         $data['service_media'] = ServiceMedia::where('service_id',$r->id)->get();
         $data['service_work_process'] = WorkProcess::where('service_id',$r->id)->get();
         $data['service_promice'] = Promice::where('service_id',$r->id)->get();
@@ -159,6 +171,8 @@ class ServiceController extends Controller
         $data['time_slot'] = TimeSlot::where('visibility',1)->get();
         $data['form_templates'] = ServiceFormTemplate::where('is_visible',1)->get();
         $data['service_type'] = ServiceType::where('visibility',1)->get();
+        $data['categorys'] = Category::where('visibility',1)->where('parent_id',null)->get();
+        $data['selectedCategories'] = $service->service_subcategories->pluck('id')->toArray();
         return view($this->view_path.'edit')->with($data);
     }
 
