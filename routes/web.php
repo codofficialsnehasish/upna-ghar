@@ -121,6 +121,8 @@ Route::middleware('auth')->group(function () {
                 Route::post('edit-price-info-store','edit_price_info_store')->name('service.edit-price-info-store');
 
 
+                Route::get('service-images-edit/{id?}','service_images_edit')->name('service.service-images-edit');
+                Route::post('service-images-edit-store','service_images_edit_store')->name('service.service-images-edit-store');
 
 
                 Route::get('{id}/edit','edit')->name('service.edit');

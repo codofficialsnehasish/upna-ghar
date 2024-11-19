@@ -276,6 +276,15 @@ class ServiceController extends Controller
         }
     }
 
+    public function service_images_edit(Request $request){
+        if(request()->segment(4) == ''){
+			return redirect(route('service.basic-info'))->with('error','Please Fill Basic Information');
+		}
+        $data['title'] = 'Service';
+        $data['service'] = Service::find($request->id);
+        return view($this->view_path.'service_images_edit')->with($data);
+    }
+
     public function edit(Request $r){
         $data['title'] = 'Service';
         $service = Service::find($r->id);

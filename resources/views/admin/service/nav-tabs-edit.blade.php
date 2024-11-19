@@ -32,7 +32,7 @@
         </a>
     </li>--}}
     <li class="nav-item">
-        <a class="nav-link {{ request()->segment(3) == 'product-images-edit' ? 'active' : '' }}" href="{{-- route('products.product-images-edit',request()->segment(4)) --}}" role="tab">
+        <a class="nav-link {{ request()->segment(3) == 'service-images-edit' ? 'active' : '' }}" href="{{ route('service.service-images-edit',request()->segment(4)) }}" role="tab">
             <span class="d-none d-md-block">Service Images</span>
             <span class="d-block d-md-none">
                 <i class="mdi mdi-cog h5"></i>

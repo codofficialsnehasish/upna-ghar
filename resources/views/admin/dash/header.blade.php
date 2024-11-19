@@ -40,6 +40,7 @@
         <link href="{{ asset('dashboard_assets/libs/toast/toastr.css') }}" rel="stylesheet" type="text/css" />
         <!-- Toast message -->
 
+        @yield('css')
     </head>
 
     <body data-sidebar="dark">
