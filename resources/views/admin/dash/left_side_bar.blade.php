@@ -86,7 +86,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('service.index') }}">All Services</a></li>
-                        <li><a href="{{ route('service.create') }}">Add New</a></li>
+                        <li><a href="{{ route('service.basic-info') }}">Add New</a></li>
                         <li><a href="{{ route('category.index') }}">Categories</a></li>
                     </ul>
                 </li>

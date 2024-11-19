@@ -24,7 +24,7 @@
                     <div class="col-md-4">
                         <div class="float-end d-none d-md-block">
                             <div class="dropdown">
-                                <a href="{{ route('service.create') }}" class="btn btn-primary  dropdown-toggle" aria-expanded="false">
+                                <a href="{{ route('service.basic-info') }}" class="btn btn-primary  dropdown-toggle" aria-expanded="false">
                                     <i class="fas fa-plus me-2"></i> Add New
                                 </a>
                             </div>
@@ -59,7 +59,7 @@
                                         <td class="text-wrap"><img src="{{ asset($service->main_image) }}" alt="" width="60px"></td>
                                         <td class="text-wrap">{!! check_visibility($service->visibility) !!}</td>
                                         <td>
-                                            <a class="btn btn-primary" href="{{ route('service.edit',$service->id) }}" alt="edit"><i class="ti-check-box"></i></a>
+                                            <a class="btn btn-primary" href="{{ route('service.edit-basic-info',$service->id) }}" alt="edit"><i class="ti-check-box"></i></a>
                                             <a class="btn btn-danger" onclick="return confirm('Are You Sure?')" href="{{ route('service.delete',$service->id) }}"><i class="ti-trash"></i></a>
                                         </td>
                                     </tr>

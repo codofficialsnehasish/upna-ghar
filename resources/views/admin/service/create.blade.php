@@ -88,10 +88,21 @@
                                                 Please select a valid state.
                                             </div>
                                         </div> --}}
-                                        <div class="mb-3 col-md-12">
+                                        <div class="mb-3 col-md-6">
                                             <label class="form-label">Name</label>
                                             <div>
                                                 <input data-parsley-type="text" type="text" class="form-control" required placeholder="Enter Service Title" name="name">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="sub_parent_service" class="form-label">Service Type</label>
+                                            <select class="form-select" id="sub_parent_service" name="sub_parent_service">
+                                                {{-- <option selected disabled value="">Choose...</option> --}}
+                                                <option selected value="directBooking">Direct Booking</option>
+                                                <option value="visitRequired">Visit Required</option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select a valid state.
                                             </div>
                                         </div>
                                     </div>

@@ -108,8 +108,21 @@ Route::middleware('auth')->group(function () {
         Route::controller(ServiceController::class)->group( function () {
             Route::prefix('service')->group( function () {
                 Route::get('','index')->name('service.index');
-                Route::get('create','create')->name('service.create');
-                Route::post('store','store')->name('service.store');
+                // Route::get('create','create')->name('service.create');
+                Route::get('basic-info','basic_info')->name('service.basic-info');
+                Route::post('basic-info-store','basic_info_store')->name('service.basic-info-store');
+
+                Route::get('edit-basic-info/{id}','edit_basic_info')->name('service.edit-basic-info');
+                Route::post('edit-basic-info-store','edit_basic_info_store')->name('service.edit-basic-info-store');
+
+
+
+                Route::get('edit-price-info/{id?}','edit_price_info')->name('service.edit-price-info');
+                Route::post('edit-price-info-store','edit_price_info_store')->name('service.edit-price-info-store');
+
+
+
+
                 Route::get('{id}/edit','edit')->name('service.edit');
                 Route::post('update','update')->name('service.update');
                 Route::get('{id}/delete','delete')->name('service.delete');
