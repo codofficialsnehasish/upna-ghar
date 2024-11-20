@@ -57,8 +57,8 @@
                                                     <label for="service_type" class="form-label">Service Type</label>
                                                     <select class="form-select" id="service_type" name="service_types">
                                                         {{-- <option selected disabled value="">Choose...</option> --}}
-                                                        <option selected value="directBooking">Direct Booking</option>
-                                                        <option value="surveyRequired">Survey Required</option>
+                                                        <option @if($service->service_types == 'directBooking') selected @endif value="directBooking">Direct Booking</option>
+                                                        <option @if($service->service_types == 'surveyRequired') selected @endif value="surveyRequired">Survey Required</option>
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         Please select a valid state.
