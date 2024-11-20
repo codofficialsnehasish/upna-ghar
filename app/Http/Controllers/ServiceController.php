@@ -269,8 +269,8 @@ class ServiceController extends Controller
         $service->gst_amount = ($request->total_price * $gstRate) / (1 + $gstRate);
         $res = $service->update();
         if($res){
-            // return redirect(route('products.inventory-edit',$product->id))->with(['success'=>'Price Details Updated Successfully']);
-            return back()->with(['success'=>'Price Details Updated Successfully']);
+            return redirect(route('service.service-images-edit',$service->id))->with(['success'=>'Price Details Updated Successfully']);
+            // return back()->with(['success'=>'Price Details Updated Successfully']);
         }else{
             return redirect()->back()->with(['error'=>'Some error occurs!']);
         }
@@ -282,7 +282,94 @@ class ServiceController extends Controller
 		}
         $data['title'] = 'Service';
         $data['service'] = Service::find($request->id);
+        $data['service_images'] = ServiceMedia::where('service_id',($request->id))->get();
         return view($this->view_path.'service_images_edit')->with($data);
+    }
+
+    public function service_images_process(Request $request){
+        return redirect(route('service.index'))->with(['success'=>'Updated Successfully']);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function serviceGalleryStore(Request $request)
+    {
+      
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ], [
+            'file.required' => 'Please upload an image file.',
+            'file.image' => 'The file must be an image.',
+            'file.mimes' => 'The file must be a type of: jpeg, png, jpg, gif, svg, webp.',
+            'file.max' => 'The file size must not exceed 2MB.',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $fileName = $image->getClientOriginalName();
+            $mimeType = $image->getMimeType();
+            $directory = public_path('web_storage/service_media');
+            // $filepath = $image->store($directory);
+            $image->move($directory, $fileName);
+
+            $service_media = new ServiceMedia();
+            $filePath = "web_storage/service_media/" . $fileName;
+
+            // Determine the media type
+            if (strstr($mimeType, "video/")) {
+                $service_media->media_type = 'video';
+            } elseif (strstr($mimeType, "image/")) {
+                $service_media->media_type = 'image';
+            } else {
+                $service_media->media_type = 'unknown';
+            }
+            $service_media->service_id = $request->service_id;
+            $service_media->file_id = $request->file_id;
+            $service_media->filepath = $filePath;
+            $service_media->visibility = 1;
+            $service_media->save();
+
+            return response()->json(['success' => 'File uploaded successfully!']);
+        }
+        return response()->json(['error' => 'File not uploaded!'], 500);
+    
+        // return response()->json(['paths' => $filepath, 'message' => 'Images uploaded successfully']);
+
+    }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function serviceTempImages(Request $request)
+    {
+        $file_id = $request->file_id;
+		$service_id = $request->service_id;
+
+		$service_images = ServiceMedia::where('service_id',$service_id)->get();
+        
+		if (!empty($service_images)) {
+            $html = '';
+            foreach ($service_images as $image) {
+                if ($image->file_id == $file_id) {
+                    $html .= '<img src="' . asset($image->filepath ) . '" alt="">' .
+                        '<a href="javascript:void(0)" class="btn-img-delete btn-delete-product-img" data-file-id="' . $image->file_id . '" data-bs-toggle="tooltip" data-bs-placement="top" title="Remove this Item"><i class="far fa-trash-alt"></i></a>' ;
+                        // '<a href="javascript:void(0)" class="float-start btn btn-subtle-secondary btn-sm waves-effect btn-set-image-main" style="padding-bottom: 0px;padding-top: 0px;padding-right: 4px;padding-left: 4px;" data-file-id="' . $image->file_id . '">Main</a>';
+                        // if ($image->is_main == 1){
+                        //     $html.='<a href="javascript:void(0)" class="float-start btn btn-subtle-success btn-sm waves-effect btn-set-image-main" style="padding-bottom: 0px;padding-top: 0px;padding-right: 4px;padding-left: 4px;" data-file-id="' . $image->file_id . '">Main</a>';
+                        // }else{
+                        //     $html.='<a href="javascript:void(0)" class="float-start btn btn-subtle-secondary btn-sm waves-effect btn-set-image-main" style="padding-bottom: 0px;padding-top: 0px;padding-right: 4px;padding-left: 4px;" data-file-id="' . $image->file_id . '">Main</a>';
+                        // }
+                    break;
+                }
+            }
+        }
+        
+       // return $html;
+        return response()->json(['html' => $html]);
     }
 
     public function edit(Request $r){
@@ -303,14 +390,18 @@ class ServiceController extends Controller
         return view($this->view_path.'edit')->with($data);
     }
 
-    public function delete_service_media(string $id){
-        $media = ServiceMedia::find($id);
-        $res = $media->delete();
-        if($res){
-            return back()->with(['success'=>'Service Media Deleted Successfully.']);
-        }else{
-            return back()->with(['error'=>'Service Media Not Deleted.']);
+    public function delete_service_media(Request $request){
+        $file_id=$request->file_id;
+        $service_id=$request->service_id;
+        $serviceImage = ServiceMedia::where('file_id',$file_id)->first();
+        $imagePath = public_path($serviceImage->filepath);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
         }
+        $ServiceImages = ServiceMedia::where('file_id', $file_id)
+                                        ->where('service_id', $service_id)
+                                        ->delete();
+        return response()->json('Deleted Successfully');
     }
 
     public function delete_work_process(string $id){

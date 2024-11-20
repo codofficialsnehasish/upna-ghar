@@ -40,7 +40,9 @@
         <link href="{{ asset('dashboard_assets/libs/toast/toastr.css') }}" rel="stylesheet" type="text/css" />
         <!-- Toast message -->
 
-        @yield('css')
+        <link rel="stylesheet" href="{{ asset('dashboard_assets/libs/file-uploader/css/jquery.dm-uploader.min.css') }}"/>
+<link rel="stylesheet" href="{{ asset('dashboard_assets/libs/file-uploader/css/styles.css') }}"/>
+        @yield('css-style')
     </head>
 
     <body data-sidebar="dark">

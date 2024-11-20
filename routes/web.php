@@ -116,14 +116,15 @@ Route::middleware('auth')->group(function () {
                 Route::post('edit-basic-info-store','edit_basic_info_store')->name('service.edit-basic-info-store');
 
 
-
                 Route::get('edit-price-info/{id?}','edit_price_info')->name('service.edit-price-info');
                 Route::post('edit-price-info-store','edit_price_info_store')->name('service.edit-price-info-store');
 
 
                 Route::get('service-images-edit/{id?}','service_images_edit')->name('service.service-images-edit');
-                Route::post('service-images-edit-store','service_images_edit_store')->name('service.service-images-edit-store');
-
+                Route::post('service-gallery-save','serviceGalleryStore')->name('service.service-gallery-save');
+                Route::post('get-service-temp-images','serviceTempImages')->name('service.get-service-temp-images');
+                Route::post('delete-service-images','delete_service_media')->name('service.delete-service-images');
+                Route::post('service-images-process','service_images_process')->name('service.service-images-process');
 
                 Route::get('{id}/edit','edit')->name('service.edit');
                 Route::post('update','update')->name('service.update');
