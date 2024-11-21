@@ -21,7 +21,7 @@
                             <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
                         </ol>
                     </div>
-                    <!-- <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="float-end d-none d-md-block">
                             <div class="dropdown">
                                 <a href="{{ route('service.create') }}" class="btn btn-primary  dropdown-toggle" aria-expanded="false">
@@ -29,7 +29,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div> -->
+                    </div>  --}}
                 </div>
             </div>
 
@@ -74,7 +74,8 @@
                                                 <strong>Name : </strong>{{ $booking->user->name ?? '' }} <br>
                                                 <strong>Contact : </strong>{{ $booking->user->phone ?? '' }} <br>
                                                 <strong>Service : </strong>{{ $booking->service->name ?? '' }} <br>
-                                                <strong>Apartment : </strong>{{ get_name('apartment_types',$booking->apartment_type_id) }} <br>
+                                                <strong>Service Types : </strong>{{ camelCaseToWords($booking->service->service_types) ?? ''}}<br>
+                                                {{-- <strong>Apartment : </strong>{{ get_name('apartment_types',$booking->apartment_type_id) }} <br> --}}
                                                 <strong>Timing : </strong>{{ get_time_slots($booking->time_slot_id) }} <br>
                                                 <strong>Date : </strong>{{ $booking->visit_date }} <br>
                                             </div>

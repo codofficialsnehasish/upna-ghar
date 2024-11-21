@@ -363,9 +363,22 @@
         function get_time_slots($id){
             $time_slot = DB::table('time_slots')->where('id', $id)->first();
             if($time_slot){
-                return formated_time($time_slot->start_time) .' - '. formated_time($time_slot->end_time);
+                // return formated_time($time_slot->start_time) .' - '. formated_time($time_slot->end_time);
+                return formated_time($time_slot->start_time);
             }else{
                 return '';
             }
         }
     }    
+
+    if(!function_exists('camelCaseToWords')){
+        function camelCaseToWords(string $string = null)
+        {
+            if($string != null){
+                $result = preg_replace('/([a-z])([A-Z])/', '$1 $2', $string);
+                return ucfirst($result);
+            }else{
+                return '';
+            }
+        }
+    }

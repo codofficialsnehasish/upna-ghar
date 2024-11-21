@@ -29,7 +29,8 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::get('/get-cities/{state_id}', [Locations::class, 'get_cities']);
 
     // User Module
-    Route::get('/get-services', [ServicesApiController::class, 'index']);
+    Route::get('/get-categories/{id?}', [ServicesApiController::class, 'get_categories']);
+    Route::post('/get-services', [ServicesApiController::class, 'index']);
     Route::get('/services-details/{service_id}', [ServicesApiController::class, 'service_details']);
     Route::post('/book-service', [ServicesApiController::class, 'book_service']);
     Route::get('/get-booked-service', [ServicesApiController::class, 'get_booked_service']);

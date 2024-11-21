@@ -47,12 +47,12 @@
                                             <input class="form-control" type="time" value="01:00:00" name="start_time" id="example-time-input">
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                    {{-- <div class="row mb-3">
                                         <label for="example-time-input" class="col-sm-2 col-form-label">End Time</label>
                                         <div class="col-sm-10">
                                             <input class="form-control" type="time" value="01:00:00" name="end_time" id="example-time-input">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

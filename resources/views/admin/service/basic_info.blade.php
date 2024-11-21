@@ -40,16 +40,21 @@
                             <div class="card-body">
                                 <!-- Nav tabs -->
                                 @include('admin.service.nav-tabs')
-
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div class="tab-pane active p-3" id="basicinfo" role="tabpanel">
                                         <div class="card-body row">
                                             <div class="row">
-                                                <div class="mb-3 col-md-6">
+                                                <div class="mb-3 col-md-12">
                                                     <label class="form-label">Name</label>
                                                     <div>
                                                         <input data-parsley-type="text" type="text" class="form-control" required placeholder="Enter Service Title" name="name">
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label class="form-label">Service Time</label>
+                                                    <div>
+                                                        <input data-parsley-type="text" type="text" class="form-control" required placeholder="Enter Service Time Ex : 1 hour" name="service_time">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 col-md-6">
@@ -70,22 +75,24 @@
                                                     <textarea class="editor" name="description"></textarea>
                                                 </div>    
                                             </div>
-                                            <div class="mb-3 col-md-12">
-                                                <label class="form-label">Choose Time Slot</label>
-                                                <select class="select2 form-control select2-multiple" required name="time_slot[]" multiple="multiple" multiple data-placeholder="Choose ...">
-                                                    @foreach($time_slot as $slot)
-                                                    <option value="{{ $slot->id }}">{{ formated_time($slot->start_time) }} - {{ formated_time($slot->end_time) }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-md-12">
-                                                <label class="form-label">Choose Form Template</label>
-                                                <select class="form-control" required name="template">
-                                                    <option value selected disabled>Choose...</option>
-                                                    @foreach($form_templates as $form_template)
-                                                    <option value="{{ $form_template->id }}">{{ $form_template->template_name }}</option>
-                                                    @endforeach
-                                                </select>
+                                            <div id="service-survey-required" style="display: none">
+                                                <div class="mb-3 col-md-12">
+                                                    <label class="form-label">Choose Time Slot</label>
+                                                    <select class="select2 form-control select2-multiple" name="time_slot[]" multiple="multiple" multiple data-placeholder="Choose ...">
+                                                        @foreach($time_slot as $slot)
+                                                        <option value="{{ $slot->id }}">{{ formated_time($slot->start_time) }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-12">
+                                                    <label class="form-label">Choose Form Template</label>
+                                                    <select class="form-control" name="template">
+                                                        <option value selected disabled>Choose...</option>
+                                                        @foreach($form_templates as $form_template)
+                                                        <option value="{{ $form_template->id }}">{{ $form_template->template_name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -170,5 +177,21 @@
             </div>
         </div>
     </div>
+
+    @section('script')
+        <script>
+            $(document).ready(function() {
+                $('#service_type').on('change', function (){
+                    if($(this).val() == 'surveyRequired'){
+                        $('#service-survey-required').show();
+                        $('#service-survey-required').find('select').attr('required', true);
+                    }else{
+                        $('#service-survey-required').hide();
+                        $('#service-survey-required').find('select').removeAttr('required');
+                    }
+                });
+            });
+        </script>
+    @endsection
 
 @include("admin/dash/footer")

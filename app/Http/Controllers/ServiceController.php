@@ -59,7 +59,7 @@ class ServiceController extends Controller
             'name' => 'required',
             // 'price' => 'required',
             // 'price_type' => 'required',
-            'time_slot' => 'required',
+            // 'time_slot' => 'required',
             // 'survey_charge' => 'required',
             // 'outer-group.*.work-process.*.title' => 'required|string|max:255',
             // 'outer-group.*.work-process.*.description' => 'required|string|max:1000',
@@ -75,8 +75,11 @@ class ServiceController extends Controller
         $service->price = 0.00;
         // $service->price_type_id = $request->price_type;
         $service->price_type_id = $request->price_type;
-        $service->description = $request->description; 
-        $service->time_slot = implode(',',$request->time_slot);
+        $service->description = $request->description;
+        if(isset($request->time_slot)){
+            $service->time_slot = implode(',',$request->time_slot);
+        }
+        $service->service_time = $request->service_time;
         // $service->survey_charge = $request->survey_charge;
         // $service->survey_charge = 0.00;
         $service->service_types = $request->service_types;
@@ -107,58 +110,58 @@ class ServiceController extends Controller
         }
         
 
-        // Uploading service Media
-        // $media_files = $request->file('service_media');
-        // if (!empty($media_files)) {
-        //     foreach ($media_files as $file) {
-        //         $service_media = new ServiceMedia();
-        //         $filename = time() . '_' . $file->getClientOriginalName();
-        //         $directory = public_path('web_storage/service_media');
-        //         $mimeType = $file->getMimeType();
-        //         $file->move($directory, $filename);
-        //         $filePath = "web_storage/service_media/" . $filename;
+        //Uploading service Media
+        /*$media_files = $request->file('service_media');
+        if (!empty($media_files)) {
+            foreach ($media_files as $file) {
+                $service_media = new ServiceMedia();
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $directory = public_path('web_storage/service_media');
+                $mimeType = $file->getMimeType();
+                $file->move($directory, $filename);
+                $filePath = "web_storage/service_media/" . $filename;
 
-        //         // Determine the media type
-        //         if (strstr($mimeType, "video/")) {
-        //             $service_media->media_type = 'video';
-        //         } elseif (strstr($mimeType, "image/")) {
-        //             $service_media->media_type = 'image';
-        //         } else {
-        //             $service_media->media_type = 'unknown';
-        //         }
-        //         $service_media->service_id = $service->id;
-        //         $service_media->filepath = $filePath;
-        //         $service_media->visibility = 1;
-        //         $service_media->save();
-        //     }
-        // }
+                // Determine the media type
+                if (strstr($mimeType, "video/")) {
+                    $service_media->media_type = 'video';
+                } elseif (strstr($mimeType, "image/")) {
+                    $service_media->media_type = 'image';
+                } else {
+                    $service_media->media_type = 'unknown';
+                }
+                $service_media->service_id = $service->id;
+                $service_media->filepath = $filePath;
+                $service_media->visibility = 1;
+                $service_media->save();
+            }
+        }*/
 
 
         // $outerGroup = $request->input('outer-group');
 
         // // Loop through each item in the outer-group array
-        // foreach ($outerGroup as $groupIndex => $group) {
-        //     // Access and loop through work-process data if available
-        //     if (isset($group['work-process'])) {
-        //         foreach ($group['work-process'] as $workProcessIndex => $workProcess) {
-        //             $obj_workprocess = new WorkProcess();
-        //             $obj_workprocess->service_id = $service->id;
-        //             $obj_workprocess->title = $workProcess['title'];
-        //             $obj_workprocess->description = $workProcess['desc'];
-        //             $obj_workprocess->save();
-        //         }
-        //     }
+        /*foreach ($outerGroup as $groupIndex => $group) {
+            // Access and loop through work-process data if available
+            if (isset($group['work-process'])) {
+                foreach ($group['work-process'] as $workProcessIndex => $workProcess) {
+                    $obj_workprocess = new WorkProcess();
+                    $obj_workprocess->service_id = $service->id;
+                    $obj_workprocess->title = $workProcess['title'];
+                    $obj_workprocess->description = $workProcess['desc'];
+                    $obj_workprocess->save();
+                }
+            }
 
-        //     // Access and loop through promice-group data if available
-        //     if (isset($group['promice-group'])) {
-        //         foreach ($group['promice-group'] as $promiceGroupIndex => $promiceGroup) {
-        //             $obj_promice = new Promice();
-        //             $obj_promice->service_id = $service->id;
-        //             $obj_promice->promice = $promiceGroup['promicedata'];
-        //             $obj_promice->save();
-        //         }
-        //     }
-        // }
+            // Access and loop through promice-group data if available
+            if (isset($group['promice-group'])) {
+                foreach ($group['promice-group'] as $promiceGroupIndex => $promiceGroup) {
+                    $obj_promice = new Promice();
+                    $obj_promice->service_id = $service->id;
+                    $obj_promice->promice = $promiceGroup['promicedata'];
+                    $obj_promice->save();
+                }
+            }
+        }*/
 
 
         if($res){
@@ -192,7 +195,7 @@ class ServiceController extends Controller
             'name' => 'required',
             // 'price' => 'required',
             // 'price_type' => 'required',
-            'time_slot' => 'required',
+            // 'time_slot' => 'required',
             // 'survey_charge' => 'required',
             // 'outer-group.*.work-process.*.title' => 'required|string|max:255',
             // 'outer-group.*.work-process.*.description' => 'required|string|max:1000',
@@ -207,7 +210,10 @@ class ServiceController extends Controller
         // $service->price = $request->price;
         // $service->price_type_id = $request->price_type;
         $service->description = $request->description; 
-        $service->time_slot = implode(',',$request->time_slot);
+        if(isset($request->time_slot)){
+            $service->time_slot = implode(',',$request->time_slot);
+        }
+        $service->service_time = $request->service_time;
         // $service->survey_charge = $request->survey_charge;
         $service->service_types = $request->service_types;
         $service->template_id = $request->template;

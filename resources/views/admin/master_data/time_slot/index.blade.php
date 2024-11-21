@@ -42,7 +42,7 @@
                                     <tr>
                                         <th class="text-wrap">SL No</th>
                                         <th class="text-wrap">Start Time</th>
-                                        <th class="text-wrap">End Time</th>
+                                        {{-- <th class="text-wrap">End Time</th> --}}
                                         <th class="text-wrap">Visibility</th>
                                         <th>Action</th>
                                     </tr>
@@ -52,7 +52,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>   
                                         <td>{{ formated_time($type->start_time) }}</td>
-                                        <td>{{ formated_time($type->end_time) }}</td>
+                                        {{-- <td>{{ formated_time($type->end_time) }}</td> --}}
                                         <td>{!! check_visibility($type->visibility) !!}</td>
                                         <td>
                                             <a class="btn btn-primary" href="{{ route('time-slot.edit',$type->id) }}" alt="edit"><i class="ti-check-box"></i></a>

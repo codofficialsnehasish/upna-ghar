@@ -28,7 +28,7 @@ class TimeSlotController extends Controller
     {
         $type = new TimeSlot();
         $type->start_time = $request->start_time;
-        $type->end_time = $request->end_time;
+        // $type->end_time = $request->end_time;
         $type->visibility = $request->visibility;
         $res = $type->save();
         if($res){
@@ -54,7 +54,7 @@ class TimeSlotController extends Controller
     {
         $type = TimeSlot::find($id);
         $type->start_time = $request->start_time;
-        $type->end_time = $request->end_time;
+        // $type->end_time = $request->end_time;
         $type->visibility = $request->visibility;
         $res = $type->save();
         if($res){
