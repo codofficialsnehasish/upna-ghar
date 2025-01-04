@@ -25,4 +25,9 @@ class Category extends Model
     {
         return $this->parent ? $this->parent->name : null;
     }
+
+    public function serviceCategories()
+    {
+        return $this->hasMany(ServiceCategories::class, 'category_id', 'id'); // category_id links to id in the categories table
+    }
 }

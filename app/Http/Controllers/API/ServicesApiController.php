@@ -60,7 +60,11 @@ class ServicesApiController extends Controller
                 $services = ServiceCategories::where('category_id', $request->category_id)
                             ->with('services') // Load the related services
                             ->get()
-                            ->pluck('services');
+                            ->pluck('services')
+                            ->reject(function ($service) {
+                                return $service === null;
+                            });
+
                 if($services){
                     return response()->json([
                         'status' => 'true',
